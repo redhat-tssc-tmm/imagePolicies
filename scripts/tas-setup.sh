@@ -201,10 +201,10 @@ install_cli() {
     
     # Get the route hostname
     print_status "Getting client server route..."
-    ROUTE_HOST=$(oc get routes -l app.kubernetes.io/component=client-server -n tssc-tas --no-headers 2>/dev/null | tail -n 1 | awk '{print $2}')
+    ROUTE_HOST=$(oc get routes -l app.kubernetes.io/component=client-server -n trusted-artifact-signer --no-headers 2>/dev/null | tail -n 1 | awk '{print $2}')
     
     if [[ -z "$ROUTE_HOST" ]]; then
-        print_error "Could not find client-server route in tssc-tas namespace"
+        print_error "Could not find client-server route in trusted-artifact-signer namespace"
         exit 1
     fi
     
