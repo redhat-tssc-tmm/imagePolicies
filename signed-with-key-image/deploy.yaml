@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signed-with-key
+  namespace: demo-imagepolicies
+  labels:
+    app: signed-with-key
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: signed-with-key
+  template:
+    metadata:
+      labels:
+        app: signed-with-key
+    spec:
+      containers:
+      - name: signed-with-key
+        image: <add-image-here>
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: signed-with-key
+  namespace: demo-imagepolicies
+  labels:
+    app: signed-with-key
+spec:
+  selector:
+    app: signed-with-key
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  type: ClusterIP
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: signed-with-key
+  namespace: demo-imagepolicies
+  labels:
+    app: signed-with-key
+spec:
+  to:
+    kind: Service
+    name: signed-with-key
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
