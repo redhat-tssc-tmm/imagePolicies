@@ -110,7 +110,9 @@ To test the policy:
 
 ## Troubleshooting
 
-If pods fail to start:
+If pods fail to start with signature verification errors, see **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** for detailed debugging steps.
+
+### Quick Checks
 
 1. Check the ImagePolicy status:
    ```bash
@@ -126,6 +128,19 @@ If pods fail to start:
    ```bash
    cosign verify --key signer-public-key.pem <image-url>
    ```
+
+4. Check node configuration (see TROUBLESHOOTING.md for details):
+   ```bash
+   oc debug node/<node-name> -- chroot /host cat /etc/containers/registries.d/sigstore-registries.yaml
+   ```
+
+### Common Error: "A signature was required, but no signature exists"
+
+If you can verify the signature with `cosign` locally but OpenShift rejects it, this usually means:
+- The MCO hasn't properly configured the nodes yet
+- The `use-sigstore-attachments` setting is missing from the registry configuration
+
+See **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** for complete debugging steps.
 
 ## Notes
 
