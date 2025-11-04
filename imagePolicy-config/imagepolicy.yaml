@@ -1,0 +1,17 @@
+---
+apiVersion: config.openshift.io/v1alpha1
+kind: ImagePolicy
+metadata:
+  name: signed-image-policy
+  namespace: demo-imagepolicies
+spec:
+  scopes:
+  - quay-d68nk.apps.cluster-d68nk.dynamic.redhatworkshops.io/demo-imagepolicies
+  policy:
+    rootOfTrust:
+      policyType: PublicKey
+      publicKey:
+        keyData: LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowREFRY0RRZ0FFNEdvblNmeVFrNDlYWU8rQzAzcVpoakZ5ZVczRgo1MXlqR01yaiszRVl2cWtRYjRyUVNaUC9reGRJZnR3RkRWVkJYaWFqeC9EbTU2UGxvVHhiS0owRXNBPT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==
+        rekorKeyData: LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowREFRY0RRZ0FFcm5yaE9wMGVCbzFiMFJoRFk2OWVuK0I1dXNOSgo3ZkVweWJhTGc3WWszV2lvTTk0dGRiam1sMnFxaUUzS3V6dlYyQzJhR3ViWHBYdVJ5UDVlT3ZmZ0tRPT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==
+    signedIdentity:
+      matchPolicy: MatchRepository
