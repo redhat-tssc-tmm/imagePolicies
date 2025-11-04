@@ -1,0 +1,16 @@
+FROM registry.access.redhat.com/ubi9/ubi:latest
+
+# Install httpd web server
+RUN dnf install -y httpd && dnf clean all
+
+# Copy the HTML file to httpd's default serving directory
+COPY index.html /var/www/html/index.html
+
+# Expose port 8080 (default for non-root in UBI)
+EXPOSE 8080
+
+# Configure httpd to listen on port 8080
+RUN sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
+
+# Run httpd in the foreground
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
